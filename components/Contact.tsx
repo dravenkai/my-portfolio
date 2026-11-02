@@ -27,36 +27,39 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="mx-auto max-w-6xl px-5 py-20 lg:px-8">
-      <p className="text-sm font-medium uppercase tracking-[0.18em] text-gold">Contact</p>
-      <h2 className="mt-3 font-serif text-4xl text-teal-deep">Let&apos;s talk about a role</h2>
-      <p className="mt-3 max-w-2xl leading-7 text-muted">
-        Email and Telegram are the fastest ways to reach me. The form opens your mail app with the message filled in.
+    <section id="contact" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+      <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">Contact</p>
+      <h2 className="mt-3 max-w-xl font-serif text-3xl font-semibold tracking-tight sm:text-5xl">Let’s talk about a role.</h2>
+      <p className="mt-3 max-w-2xl text-sm leading-7 text-muted">
+        Email and Telegram are the fastest. The form opens your mail app with the message filled in.
       </p>
-      <div className="mt-8 grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
-        <ul className="space-y-3">
+      <div className="mt-8 grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
+        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
           {channels.map((item) => (
             <li key={item.label}>
-              <a href={item.href} target={item.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className="block rounded-2xl border border-line bg-card px-5 py-4 transition hover:border-teal">
-                <span className="block text-xs uppercase tracking-wider text-muted">{item.label}</span>
-                <span className="mt-1 block font-medium">{item.value}</span>
+              <a
+                href={item.href}
+                target={item.href.startsWith("http") ? "_blank" : undefined}
+                rel="noreferrer"
+                className="block rounded-2xl border border-line bg-card px-4 py-4"
+              >
+                <span className="block font-mono text-[11px] uppercase tracking-[0.16em] text-muted">{item.label}</span>
+                <span className="mt-1 block break-all font-medium">{item.value}</span>
               </a>
             </li>
           ))}
         </ul>
-        <form onSubmit={onSubmit} className="rounded-[2rem] border border-line bg-card p-6 sm:p-8">
+        <form onSubmit={onSubmit} className="rounded-[1.75rem] border border-line bg-card p-5 sm:p-8">
           <label className="block text-sm font-medium" htmlFor="name">Name</label>
-          <input id="name" name="name" required className="mt-2 w-full rounded-xl border border-line bg-paper px-4 py-3" />
+          <input id="name" name="name" required autoComplete="name" className="mt-2 w-full rounded-xl border border-line bg-[#0c0e14] px-4 py-3 text-base" />
           <label className="mt-4 block text-sm font-medium" htmlFor="email">Email</label>
-          <input id="email" name="email" type="email" required className="mt-2 w-full rounded-xl border border-line bg-paper px-4 py-3" />
+          <input id="email" name="email" type="email" required autoComplete="email" className="mt-2 w-full rounded-xl border border-line bg-[#0c0e14] px-4 py-3 text-base" />
           <label className="mt-4 block text-sm font-medium" htmlFor="message">Message</label>
-          <textarea id="message" name="message" required rows={5} className="mt-2 w-full rounded-xl border border-line bg-paper px-4 py-3" />
-          <button type="submit" className="mt-5 rounded-full bg-teal px-5 py-3 text-sm font-semibold text-card">
+          <textarea id="message" name="message" required rows={5} className="mt-2 w-full rounded-xl border border-line bg-[#0c0e14] px-4 py-3 text-base" />
+          <button type="submit" className="mt-5 w-full rounded-full bg-accent px-5 py-3 text-sm font-semibold text-[#1a0c08] sm:w-auto">
             Open email draft
           </button>
-          {sentHint ? (
-            <p className="mt-3 text-sm text-muted">Your email app should open with this message addressed to {profile.email}.</p>
-          ) : null}
+          {sentHint ? <p className="mt-3 text-sm text-muted">Your email app should open, addressed to {profile.email}.</p> : null}
         </form>
       </div>
       <footer className="mt-16 border-t border-line pt-6 text-sm text-muted">

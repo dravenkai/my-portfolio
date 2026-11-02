@@ -21,94 +21,80 @@ class SceneBoundary extends Component<{ children: ReactNode }, { failed: boolean
 }
 
 export function Hero() {
-  const [showScene, setShowScene] = useState(false);
+  const [motion, setMotion] = useState(true);
 
   useEffect(() => {
-    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const wide = window.matchMedia("(min-width: 1024px)");
-    const update = () => setShowScene(!motion.matches && wide.matches);
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setMotion(!query.matches);
     update();
-    motion.addEventListener("change", update);
-    wide.addEventListener("change", update);
-    return () => {
-      motion.removeEventListener("change", update);
-      wide.removeEventListener("change", update);
-    };
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
   }, []);
 
   return (
-    <section id="top" className="mx-auto grid max-w-6xl items-center gap-14 px-5 pb-20 pt-28 lg:grid-cols-[1.05fr_0.95fr] lg:px-8 lg:pt-32">
-      <div>
-        <p className="text-sm font-medium uppercase tracking-[0.22em] text-gold">
-          {profile.role} · Open to roles
-        </p>
-        <h1 className="mt-4 font-serif text-5xl leading-[1.05] text-teal-deep sm:text-6xl">
-          {profile.name}
-        </h1>
-        <p className="mt-3 text-lg text-muted">Also known as {profile.alsoKnownAs}</p>
-        <p className="mt-6 max-w-xl text-lg leading-8 text-ink/90">{profile.summary}</p>
-        <p className="mt-4 text-base leading-7 text-muted">
-          {profile.year} at the {profile.school}. Based in {profile.location}.
-        </p>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <a
-            href="#work"
-            className="rounded-full bg-teal px-5 py-3 text-sm font-semibold text-card transition hover:bg-teal-deep"
-          >
-            View selected work
-          </a>
-          <a
-            href={`mailto:${profile.email}`}
-            className="rounded-full border border-line bg-card px-5 py-3 text-sm font-semibold text-teal transition hover:border-teal"
-          >
-            Email me
-          </a>
-        </div>
-        <dl className="mt-10 grid max-w-lg grid-cols-3 gap-4 border-t border-line pt-6 text-sm">
-          <div>
-            <dt className="text-muted">Focus</dt>
-            <dd className="mt-1 font-medium">MERN and Next.js</dd>
+    <section id="top" className="relative overflow-hidden px-4 pb-16 pt-28 sm:px-6 lg:pb-24 lg:pt-32">
+      <div className="grid-fade pointer-events-none absolute inset-0" />
+      <div className="relative mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="rise min-w-0">
+          <p className="inline-flex items-center gap-2 rounded-full border border-line bg-card/80 px-3 py-1 text-xs font-medium uppercase tracking-[0.16em] text-mint">
+            <span className="h-1.5 w-1.5 rounded-full bg-mint" />
+            Open to junior roles
+          </p>
+          <h1 className="mt-5 max-w-xl font-serif text-[2.6rem] font-semibold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
+            {profile.name}
+          </h1>
+          <p className="mt-3 text-base text-muted sm:text-lg">
+            {profile.role} · also {profile.alsoKnownAs}
+          </p>
+          <p className="mt-5 max-w-xl text-base leading-7 text-ink/90 sm:text-lg sm:leading-8">{profile.summary}</p>
+          <div className="mt-7 flex flex-wrap gap-3">
+            <a href="#work" className="rounded-full bg-accent px-5 py-3 text-sm font-semibold text-[#1a0c08]">
+              See the work
+            </a>
+            <a href="#contact" className="rounded-full border border-line bg-card px-5 py-3 text-sm font-semibold">
+              Contact
+            </a>
           </div>
-          <div>
-            <dt className="text-muted">School</dt>
-            <dd className="mt-1 font-medium">MIIT, year 4</dd>
-          </div>
-          <div>
-            <dt className="text-muted">Award</dt>
-            <dd className="mt-1 font-medium">Project Show 2026</dd>
-          </div>
-        </dl>
-      </div>
-
-      <div className="relative mx-auto h-[520px] w-full max-w-md">
-        {showScene ? (
-          <SceneBoundary>
-            <div className="absolute -right-2 top-0 h-64 w-64">
-              <HeroScene />
+          <dl className="mt-8 grid grid-cols-3 gap-3 border-t border-line pt-5 text-sm">
+            <div>
+              <dt className="text-muted">Focus</dt>
+              <dd className="mt-1 font-medium">Next.js / MERN</dd>
             </div>
-          </SceneBoundary>
-        ) : null}
-        <div className="absolute bottom-0 left-0 w-[86%] overflow-hidden rounded-[2rem] border border-line bg-card shadow-[0_24px_60px_rgba(28,25,21,0.12)]">
-          <Image
-            src="/images/portrait.png"
-            alt="Portrait of Kaung Myat Thant"
-            width={900}
-            height={1120}
-            priority
-            className="h-[430px] w-full object-cover object-[center_20%]"
-          />
+            <div>
+              <dt className="text-muted">School</dt>
+              <dd className="mt-1 font-medium">MIIT, year 4</dd>
+            </div>
+            <div>
+              <dt className="text-muted">Based</dt>
+              <dd className="mt-1 font-medium">Mandalay</dd>
+            </div>
+          </dl>
         </div>
-        <div className="absolute bottom-6 right-0 flex items-center gap-3 rounded-2xl border border-line bg-card/95 px-3 py-2 shadow-lg backdrop-blur">
-          <Image
-            src="/images/miit-logo.png"
-            alt="Myanmar Institute of Information Technology logo"
-            width={48}
-            height={48}
-            className="h-12 w-12 rounded-full bg-black object-cover"
-          />
-          <div>
-            <p className="text-xs uppercase tracking-wider text-muted">Studying at</p>
-            <p className="text-sm font-semibold">MIIT Mandalay</p>
+
+        <div className="relative min-w-0">
+          <div className="relative h-56 w-full overflow-hidden rounded-[1.75rem] border border-white/10 bg-[radial-gradient(circle_at_30%_20%,rgba(255,90,31,0.35),transparent_42%),linear-gradient(160deg,#171a24,#0b0c10)] sm:h-72 lg:h-[520px]">
+            <div className="absolute inset-0">
+              <SceneBoundary>
+                <HeroScene motion={motion} />
+              </SceneBoundary>
+            </div>
+            <p className="pointer-events-none absolute left-4 top-4 font-mono text-[11px] uppercase tracking-[0.18em] text-white/70">
+              a live sculpture
+            </p>
+          </div>
+          <div className="mt-3 flex items-center gap-3 rounded-2xl border border-line bg-card p-3 lg:absolute lg:bottom-5 lg:left-5 lg:mt-0 lg:w-[250px] lg:shadow-[0_20px_50px_rgba(0,0,0,0.35)]">
+            <Image
+              src="/images/portrait.png"
+              alt="Portrait of Kaung Myat Thant"
+              width={160}
+              height={160}
+              priority
+              className="h-16 w-16 rounded-xl object-cover object-[center_20%] lg:h-20 lg:w-20"
+            />
+            <div className="min-w-0">
+              <p className="truncate text-sm font-semibold">{profile.name}</p>
+              <p className="mt-1 text-xs text-muted">{profile.schoolShort} · {profile.location}</p>
+            </div>
           </div>
         </div>
       </div>

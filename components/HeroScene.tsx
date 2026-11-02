@@ -4,46 +4,48 @@ import { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import type { Group } from "three";
 
-function Sculpture() {
+function Sculpture({ motion }: { motion: boolean }) {
   const group = useRef<Group>(null);
 
-  useFrame(({ clock }) => {
+  useFrame(({ clock, pointer }) => {
     if (!group.current) return;
     const t = clock.getElapsedTime();
-    group.current.rotation.y = t * 0.35;
-    group.current.rotation.x = Math.sin(t * 0.4) * 0.18;
+    const spin = motion ? t * 0.28 : 0.4;
+    group.current.rotation.y = spin + pointer.x * 0.45;
+    group.current.rotation.x = (motion ? Math.sin(t * 0.35) * 0.18 : 0.15) + pointer.y * 0.2;
   });
 
   return (
     <group ref={group}>
       <mesh>
-        <torusKnotGeometry args={[0.78, 0.22, 160, 18]} />
-        <meshStandardMaterial color="#143f45" metalness={0.62} roughness={0.24} />
+        <torusKnotGeometry args={[0.72, 0.2, 180, 20]} />
+        <meshStandardMaterial color="#ff5a1f" metalness={0.72} roughness={0.22} />
       </mesh>
-      <mesh rotation={[Math.PI / 2.3, 0.2, 0]}>
-        <torusGeometry args={[1.42, 0.02, 16, 90]} />
-        <meshStandardMaterial color="#8a6430" metalness={0.7} roughness={0.25} />
+      <mesh>
+        <icosahedronGeometry args={[1.35, 1]} />
+        <meshStandardMaterial color="#8ef0c8" wireframe />
       </mesh>
-      <mesh position={[1.15, 0.72, 0.2]}>
-        <octahedronGeometry args={[0.16, 0]} />
-        <meshStandardMaterial color="#d7c4a3" metalness={0.3} roughness={0.35} />
+      <mesh rotation={[Math.PI / 2.4, 0.4, 0.2]}>
+        <torusGeometry args={[1.7, 0.015, 16, 120]} />
+        <meshStandardMaterial color="#e7c27a" metalness={0.8} roughness={0.2} />
       </mesh>
     </group>
   );
 }
 
-export default function HeroScene() {
+export default function HeroScene({ motion = true }: { motion?: boolean }) {
   return (
     <Canvas
-      camera={{ position: [0, 0, 4.5], fov: 36 }}
+      camera={{ position: [0, 0, 4.4], fov: 38 }}
       gl={{ alpha: true, antialias: true }}
       dpr={[1, 1.5]}
+      style={{ width: "100%", height: "100%", touchAction: "pan-y" }}
       aria-hidden
     >
-      <ambientLight intensity={1.35} />
-      <directionalLight position={[3.5, 4, 5]} intensity={2.5} />
-      <directionalLight position={[-3, -1, -2]} intensity={0.55} color="#f0ddb8" />
-      <Sculpture />
+      <ambientLight intensity={0.7} />
+      <directionalLight position={[4, 3, 5]} intensity={2.4} color="#fff4ea" />
+      <pointLight position={[-3, -1, 2]} intensity={8} color="#8ef0c8" />
+      <Sculpture motion={motion} />
     </Canvas>
   );
 }

@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
-import { Fraunces, Outfit } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { IBM_Plex_Mono, Outfit, Space_Grotesk } from "next/font/google";
+import { Sky } from "@/components/Sky";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -7,9 +8,15 @@ const outfit = Outfit({
   variable: "--font-outfit",
 });
 
-const fraunces = Fraunces({
+const display = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-fraunces",
+  variable: "--font-display",
+});
+
+const mono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-ibm",
 });
 
 export const metadata: Metadata = {
@@ -19,14 +26,23 @@ export const metadata: Metadata = {
   authors: [{ name: "Kaung Myat Thant" }],
 };
 
+export const viewport: Viewport = {
+  themeColor: "#07080c",
+  width: "device-width",
+  initialScale: 1,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${outfit.variable} ${fraunces.variable}`}>
-      <body className="font-sans text-ink antialiased">{children}</body>
+    <html lang="en" className={`${outfit.variable} ${display.variable} ${mono.variable}`}>
+      <body className="font-sans text-ink antialiased">
+        <Sky />
+        <div className="relative z-10">{children}</div>
+      </body>
     </html>
   );
 }
