@@ -77,6 +77,20 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    title: "Oriole",
+    context: "Full-stack shop",
+    summary:
+      "A home-goods shop for ceramics, linen, lighting, and wood. The storefront is Burmese by default, with an English toggle, and prices are in kyat. Anyone can browse; an account is required to place an order.",
+    highlights: [
+      "React and Vite storefront with an Express and MongoDB API",
+      "Burmese and English copy, with the brand name kept as Oriole",
+      "Checkout records the order and reduces stock",
+    ],
+    stack: ["React", "Vite", "Node.js", "Express", "MongoDB"],
+    github: "https://github.com/dravenkai/oriole",
+    image: "/images/oriole.png",
+  },
+  {
     title: "Enginex",
     context: "Team project · MIIT Project Show 2026",
     summary:
@@ -138,30 +152,18 @@ export const projects: Project[] = [
     image: "/images/anonspace.png",
   },
   {
-    title: "Computer Architecture Simulator",
-    context: "Personal project",
+    title: "Cache Memory Simulator",
+    context: "Coursework · Computer Architecture",
     summary:
-      "A teaching tool for the fetch-decode-execute cycle. The CPU, ALU, registers, memory, and cache run in the browser. An Express and MySQL API stores saved programs and reports.",
+      "An interactive cache simulator for a Computer Architecture course. It shows how a CPU address maps into a cache, and how hits and misses change with the mapping and replacement policy.",
     highlights: [
-      "Step through instructions without a backend",
-      "Performance view for cycles, CPI, and cache ratios",
-      "Shared library of assembly programs when MySQL is connected",
+      "Direct-mapped, fully associative, and set-associative caches",
+      "LRU, FIFO, and random replacement, with step and run controls",
+      "Live tag, index, and offset breakdown, plus a running hit ratio",
     ],
-    stack: ["React", "Vite", "Node.js", "Express", "MySQL"],
-    github: "https://github.com/dravenkai/computer-architecture-simulator",
-  },
-  {
-    title: "Medicine Info Bot",
-    context: "Personal project",
-    summary:
-      "A Telegram bot that explains common medicines in plain language and reminds the user to check with a doctor before taking anything.",
-    highlights: [
-      "Inline keyboard for choosing a medicine",
-      "Short descriptions for everyday drugs such as paracetamol and ibuprofen",
-      "Disclaimer shown before any information",
-    ],
-    stack: ["Python", "python-telegram-bot"],
-    github: "https://github.com/dravenkai/my-medicine-bot",
+    stack: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
+    github: "https://github.com/dravenkai/Cache-Memory-Simulator",
+    image: "/images/cache-sim.png",
   },
   {
     title: "Plannco Home Decoration",
@@ -174,6 +176,7 @@ export const projects: Project[] = [
     ],
     stack: ["HTML", "CSS", "JavaScript"],
     github: "https://github.com/dravenkai/wdf11project",
+    image: "/images/plannco.jpg",
   },
 ];
 

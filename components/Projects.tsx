@@ -118,7 +118,7 @@ export function Projects() {
         </div>
       </article>
 
-      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-4 hidden gap-3 sm:grid-cols-2 md:grid lg:grid-cols-3">
         {projects.map((item, dot) => (
           <button
             key={item.title}

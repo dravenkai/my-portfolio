@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { X } from "lucide-react";
 import { certificates } from "@/data/content";
@@ -14,8 +15,13 @@ export function Certificates() {
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") setActive(null);
     };
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = previous;
+      window.removeEventListener("keydown", onKey);
+    };
   }, [active]);
 
   function slide(direction: number) {
@@ -62,28 +68,40 @@ export function Certificates() {
         ))}
       </div>
 
-      {active ? (
-        <div
-          className="fixed inset-0 z-50 flex items-end justify-center bg-black/75 p-3 sm:items-center sm:p-6"
-          role="dialog"
-          aria-modal="true"
-          aria-label={active.title}
-          onClick={() => setActive(null)}
-        >
-          <div className="max-h-[92dvh] w-full max-w-4xl overflow-auto rounded-2xl bg-card p-3" onClick={(event) => event.stopPropagation()}>
-            <div className="mb-2 flex items-start justify-between gap-4 px-1 pt-1">
-              <div>
-                <p className="font-semibold">{active.title}</p>
-                <p className="text-sm text-muted">{active.issuer} · {active.date}</p>
+      {active
+        ? createPortal(
+            <div
+              className="fixed inset-0 z-50 grid place-items-center bg-black/75 p-4"
+              role="dialog"
+              aria-modal="true"
+              aria-label={active.title}
+              onClick={() => setActive(null)}
+            >
+              <div
+                className="max-h-[90dvh] w-full max-w-4xl overflow-auto rounded-2xl bg-card p-3"
+                onClick={(event) => event.stopPropagation()}
+              >
+                <div className="mb-2 flex items-start justify-between gap-4 px-1 pt-1">
+                  <div>
+                    <p className="font-semibold">{active.title}</p>
+                    <p className="text-sm text-muted">{active.issuer} · {active.date}</p>
+                  </div>
+                  <button type="button" onClick={() => setActive(null)} className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-line" aria-label="Close certificate">
+                    <X size={16} />
+                  </button>
+                </div>
+                <Image
+                  src={active.image}
+                  alt={`${active.title} from ${active.issuer}`}
+                  width={1400}
+                  height={1000}
+                  className="mx-auto h-auto max-h-[72dvh] w-auto max-w-full rounded-xl bg-white object-contain"
+                />
               </div>
-              <button type="button" onClick={() => setActive(null)} className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-line" aria-label="Close certificate">
-                <X size={16} />
-              </button>
-            </div>
-            <Image src={active.image} alt={`${active.title} from ${active.issuer}`} width={1400} height={1000} className="h-auto w-full rounded-xl bg-white object-contain" />
-          </div>
-        </div>
-      ) : null}
+            </div>,
+            document.body,
+          )
+        : null}
     </section>
   );
 }
